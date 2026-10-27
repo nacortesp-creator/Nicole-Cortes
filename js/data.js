@@ -1,5 +1,5 @@
 // data.js - Archivo de datos fijos de la aplicación de enfermería
-// Contiene la información clínica estructurada de los procedimientos básicos
+// Contiene la información clínica estructurada de procedimientos, materiales, precauciones y fichas
 
 const PROCEDIMIENTOS_DATA = {
   "cvp": {
@@ -118,6 +118,37 @@ const PROCEDIMIENTOS_DATA = {
         titulo: "Realizar higiene de manos final y registrar en la hoja de enfermería el procedimiento, sitio anatómico, calibre, tolerancia del paciente e incidentes.",
         razon: "Documentación médico-legal estricta y cierre del ciclo de atención de enfermería."
       }
+    ],
+    // MATERIALES PARA FUNCIÓN 2
+    bandeja: {
+      zonaLimpia: [
+        { nombre: "Catéter IV 20G (Rosa)", cantidad: "1 unidad", nota: "Calibre principal adulto" },
+        { nombre: "Catéter IV 22G (Azul)", cantidad: "1 unidad", nota: "Respaldo por fragilidad capilar" },
+        { nombre: "Llave de 3 vías con alargador", cantidad: "1 unidad", nota: "O conector libre de aguja" },
+        { nombre: "Jeringa 10 ml + Ampolla SF 0.9%", cantidad: "1 set", nota: "Para purgar y comprobar permeabilidad" }
+      ],
+      zonaAntisepsia: [
+        { nombre: "Clorhexidina alcohólica 2%", cantidad: "1 sachet o ampolla", nota: "O alcohol al 70%" },
+        { nombre: "Gasas estériles (7.5 x 7.5 cm)", cantidad: "Pack de 3 u.", nota: "Para secado o hemostasia" },
+        { nombre: "Apósito transparente (Tegaderm)", cantidad: "1 unidad", nota: "Con marco adhesivo y rótulo" }
+      ],
+      zonaSoporte: [
+        { nombre: "Guantes de procedimiento limpios", cantidad: "2 pares", nota: "Talla adecuada del estudiante" },
+        { nombre: "Torniquete / Ligadura elástica", cantidad: "1 unidad", nota: "Limpio y desinfectado" },
+        { nombre: "Caja cortopunzante rígida", cantidad: "1 unidad", nota: "A menos de 50 cm del operador" },
+        { nombre: "Almohadilla o paño protector", cantidad: "1 unidad", nota: "Protección de ropa de cama" }
+      ]
+    },
+    checklistMateriales: [
+      { id: "mat-cvp-1", nombre: "Catéteres IV (Calibre 20G + Respaldo 22G)", categoria: "Punción", detalle: "Verificar empaques indemnes y fecha de caducidad vigente" },
+      { id: "mat-cvp-2", nombre: "Llave de 3 vías con alargador / bioconector", categoria: "Punción", detalle: "Sistema cerrado libre de aguja estéril" },
+      { id: "mat-cvp-3", nombre: "Jeringa 10 ml con Solución Fisiológica 0.9%", categoria: "Punción", detalle: "Para purgado previo de la línea y prueba de reflujo" },
+      { id: "mat-cvp-4", nombre: "Antiséptico: Clorhexidina al 2% o Alcohol 70%", categoria: "Antisepsia", detalle: "Acción bactericida con tiempo de secado de 30 segundos" },
+      { id: "mat-cvp-5", nombre: "Gasas estériles (Pack de 3 unidades)", categoria: "Antisepsia", detalle: "Dimensiones estándar 7.5 x 7.5 cm" },
+      { id: "mat-cvp-6", nombre: "Apósito transparente estéril tipo Tegaderm", categoria: "Antisepsia", detalle: "Permite inspección visual del punto de punción" },
+      { id: "mat-cvp-7", nombre: "Guantes de procedimiento limpios (no estériles)", categoria: "Protección", detalle: "Barrera biológica según precauciones estándar" },
+      { id: "mat-cvp-8", nombre: "Torniquete elástico y campo protector", categoria: "Protección", detalle: "Desinfectado entre pacientes con alcohol 70%" },
+      { id: "mat-cvp-9", nombre: "Contenedor rígido para cortopunzantes", categoria: "Protección", detalle: "Nunca reencapuchar la aguja; descarte inmediato" }
     ]
   },
   "flebotomia": {
@@ -205,6 +236,33 @@ const PROCEDIMIENTOS_DATA = {
         titulo: "Homogeneizar tubos por inversión suave (5 a 8 veces según aditivo) y rotular frente al paciente.",
         razon: "La rotulación a pie de cama previene confusiones graves de identidad de muestras."
       }
+    ],
+    bandeja: {
+      zonaLimpia: [
+        { nombre: "Camisa portatubos (Holder Vacutainer)", cantidad: "1 unidad", nota: "Dispositivo reutilizable o descartable" },
+        { nombre: "Aguja de punción múltiple (21G verde)", cantidad: "1 o 2 u.", nota: "O aguja mariposa / scalp 21G-23G" },
+        { nombre: "Tubos de toma de muestra requeridos", cantidad: "Según orden", nota: "Tapa celeste, roja, lila según examen" }
+      ],
+      zonaAntisepsia: [
+        { nombre: "Torundas de algodón secas", cantidad: "4-5 unidades", nota: "Para hemostasia post-punción" },
+        { nombre: "Alcohol al 70% (solución o toallitas)", cantidad: "1 frasco o sachet", nota: "Para desinfección dérmica" },
+        { nombre: "Cinta adhesiva o parche curita", cantidad: "1 tira", nota: "Para fijar algodón tras hemostasia" }
+      ],
+      zonaSoporte: [
+        { nombre: "Torniquete libre de látex", cantidad: "1 unidad", nota: "Aplicar máx 1 min" },
+        { nombre: "Guantes de procedimiento", cantidad: "1 par", nota: "Obligatorio por bioseguridad" },
+        { nombre: "Caja cortopunzante de mesa", cantidad: "1 unidad", nota: "Descarte inmediato sin desenroscar con la mano" }
+      ]
+    },
+    checklistMateriales: [
+      { id: "mat-fleb-1", nombre: "Agujas de punción múltiple (21G o Mariposa 23G)", categoria: "Punción", detalle: "Empaque estéril indemne con conector roscado" },
+      { id: "mat-fleb-2", nombre: "Camisa o adaptador portatubos Vacutainer", categoria: "Punción", detalle: "Limpia y compatible con tubos estándar" },
+      { id: "mat-fleb-3", nombre: "Tubos de recolección según orden médica", categoria: "Punción", detalle: "Verificar fecha de caducidad del vacío de cada tubo" },
+      { id: "mat-fleb-4", nombre: "Alcohol al 70% y torundas de algodón", categoria: "Antisepsia", detalle: "Algodón estéril o limpio en riñonera" },
+      { id: "mat-fleb-5", nombre: "Cinta adhesiva hipoalergénica o parches", categoria: "Antisepsia", detalle: "Para protección final post-hemostasia" },
+      { id: "mat-fleb-6", nombre: "Torniquete de goma o tela libre de látex", categoria: "Protección", detalle: "Verificar buen estado de ajuste" },
+      { id: "mat-fleb-7", nombre: "Guantes de procedimiento limpios", categoria: "Protección", detalle: "Barrera biológica obligatoria" },
+      { id: "mat-fleb-8", nombre: "Contenedor rígido de cortopunzantes", categoria: "Protección", detalle: "Para descartar aguja con holder de seguridad" }
     ]
   },
   "foley": {
@@ -292,6 +350,121 @@ const PROCEDIMIENTOS_DATA = {
         titulo: "Retirar equipo, desecho de material, higiene de manos y registro detallado con volumen de orina obtenido.",
         razon: "Documentación clínica completa y valoración de características de la orina."
       }
+    ],
+    bandeja: {
+      zonaLimpia: [
+        { nombre: "Sonda Foley 2 vías (Calibre 14 o 16 Fr)", cantidad: "1 o 2 u.", nota: "Látex siliconado o 100% silicona" },
+        { nombre: "Bolsa recolectora en circuito cerrado", cantidad: "1 unidad", nota: "Con válvula antirreflujo y grifo de vaciado" },
+        { nombre: "Jeringa 10 ml + Ampolla Agua Bidestilada 10 ml", cantidad: "1 set", nota: "Para insuflar balón (NUNCA suero fisiológico)" }
+      ],
+      zonaAntisepsia: [
+        { nombre: "Campo fenestrado estéril", cantidad: "1 unidad", nota: "Delimita área genital estéril" },
+        { nombre: "Gasas estériles y jabón / solución antiséptica", cantidad: "1 set", nota: "Clorhexidina jabonosa al 2%" },
+        { nombre: "Gel lubricante urológico estéril / anestésico", cantidad: "1 sachet o jeringa", nota: "Lidocaína en gel al 2%" }
+      ],
+      zonaSoporte: [
+        { nombre: "Guantes estériles quirúrgicos", cantidad: "2 pares", nota: "Talla precisa del operador" },
+        { nombre: "Guantes de procedimiento no estériles", cantidad: "1 par", nota: "Para aseo genital previo" },
+        { nombre: "Fijador adhesivo de muslo", cantidad: "1 unidad", nota: "Evita tracción uretral" }
+      ]
+    },
+    checklistMateriales: [
+      { id: "mat-fol-1", nombre: "Sonda Foley 2 vías (14 o 16 Fr) estéril", categoria: "Sondaje", detalle: "Verificar integridad del envoltorio y fecha vigente" },
+      { id: "mat-fol-2", nombre: "Bolsa recolectora de orina en circuito cerrado", categoria: "Sondaje", detalle: "Con escala graduada y válvula antirreflujo" },
+      { id: "mat-fol-3", nombre: "Ampolla de Agua Bidestilada estéril (10 ml)", categoria: "Sondaje", detalle: "Estrictamente agua bidestilada; no cristaliza" },
+      { id: "mat-fol-4", nombre: "Jeringa estéril de 10 ml", categoria: "Sondaje", detalle: "Para probar balón e insuflar en vejiga" },
+      { id: "mat-fol-5", nombre: "Lubricante estéril hidrosoluble (Lidocaína 2%)", categoria: "Antisepsia", detalle: "Minimiza dolor y traumatismo uretral" },
+      { id: "mat-fol-6", nombre: "Campo fenestrado estéril y gasas", categoria: "Antisepsia", detalle: "Mantenimiento estricto de campo estéril" },
+      { id: "mat-fol-7", nombre: "2 pares de Guantes Quirúrgicos Estériles", categoria: "Protección", detalle: "Técnica aséptica rigurosa" },
+      { id: "mat-fol-8", nombre: "Fijación adhesiva para muslo y bolsa de desecho", categoria: "Protección", detalle: "Asegurar drenaje por gravedad bajo nivel de vejiga" }
     ]
   }
 };
+
+// DATOS PARA FUNCIÓN 3 Y 4: FICHAS TÉCNICAS Y RECORDATORIOS
+const FICHAS_DATA = [
+  {
+    id: "ficha-10-correctos",
+    categoria: "farmacologia",
+    categoriaTexto: "Farmacología & Dosis",
+    titulo: "Los 10 Correctos en la Administración de Fármacos",
+    resumen: "Barrera crítica e innegociable de enfermería para prevenir eventos adversos por medicamentos (EAM).",
+    badge: "Seguridad Paciente",
+    icon: "vaccines",
+    correctos: [
+      { num: "01", nombre: "Paciente Correcto", detalle: "Verificar con 2 identificadores activos (Nombre completo y RUT/DNI) en brazalete y verbalmente. Nunca usar número de cama." },
+      { num: "02", nombre: "Medicamento Correcto", detalle: "Verificación triple del etiquetado: al sacarlo del botiquín, al prepararlo y antes de administrarlo." },
+      { num: "03", nombre: "Dosis Correcta", detalle: "Confirmar orden médica, realizar cálculo y doble chequeo en fármacos de alto riesgo (insulina, heparina, electrolitos concentrados)." },
+      { num: "04", nombre: "Vía Correcta", detalle: "Verificar si es IV, IM, SC, VO, SL. Nunca administrar por una vía diferente a la prescrita." },
+      { num: "05", nombre: "Hora / Frecuencia Correcta", detalle: "Respetar intervalos terapéuticos para mantener niveles plasmáticos estables (ej: antibióticos cada 8h)." },
+      { num: "06", nombre: "Velocidad de Infusión Correcta", detalle: "Calcular goteo o programar bomba de infusión continua (BIC) en mL/h según indicación médica." },
+      { num: "07", nombre: "Verificar Alergias e Interacciones", detalle: "Preguntar al paciente y revisar antecedentes de hipersensibilidad antes de cada administración." },
+      { num: "08", nombre: "Educación al Paciente", detalle: "Informar qué medicamento recibe, para qué sirve y qué efectos colaterales comunes puede esperar." },
+      { num: "09", nombre: "Registro Inmediato", detalle: "Registrar en la hoja de enfermería inmediatamente después de administrar, nunca antes de hacerlo." },
+      { num: "10", nombre: "Respuesta / Monitorización", detalle: "Evaluar la respuesta terapéutica y vigilar aparición temprana de efectos adversos post-administración." }
+    ]
+  },
+  {
+    id: "ficha-calibres-iv",
+    categoria: "calibres",
+    categoriaTexto: "Calibres y Colores IV",
+    titulo: "Guía Rápida de Calibres Intravenosos (G)",
+    resumen: "Codificación cromática internacional (ISO 10555). A menor número de calibre (G), mayor diámetro de la luz del catéter.",
+    badge: "Norma ISO 10555",
+    icon: "colorize",
+    calibres: [
+      { g: "14G", color: "Naranja", flujo: "270 mL/min", dim: "2.1 x 45 mm", uso: "Politrauma masivo, reanimación de shock, quirófano urgencia", bg: "bg-orange-500", text: "text-white" },
+      { g: "16G", color: "Gris", flujo: "180 mL/min", dim: "1.7 x 45 mm", uso: "Cirugía mayor, transfusión rápida de hemoderivados", bg: "bg-gray-400", text: "text-gray-900" },
+      { g: "18G", color: "Verde", flujo: "90 mL/min", dim: "1.3 x 32 mm", uso: "Cirugía general, TAC con contraste, sangre y hemoderivados", bg: "bg-emerald-600", text: "text-white" },
+      { g: "20G", color: "Rosa", flujo: "60 mL/min", dim: "1.1 x 32 mm", uso: "Hospitalización general, sueroterapia y antibióticos (Estándar Adultos)", bg: "bg-pink-600", text: "text-white" },
+      { g: "22G", color: "Azul", flujo: "36 mL/min", dim: "0.9 x 25 mm", uso: "Adulto mayor con fragilidad capilar, pediatría, venas finas", bg: "bg-blue-500", text: "text-white" },
+      { g: "24G", color: "Amarillo", flujo: "20 mL/min", dim: "0.7 x 19 mm", uso: "Neonatología, pediatría, venas de muy difícil acceso", bg: "bg-amber-300", text: "text-amber-900" }
+    ]
+  },
+  {
+    id: "ficha-5-momentos",
+    categoria: "higiene",
+    categoriaTexto: "Higiene de Manos",
+    titulo: "Los 5 Momentos del Lavado de Manos OMS",
+    resumen: "Protocolo de higiene para prevenir infecciones asociadas a la atención de salud (IAAS).",
+    badge: "Obligatorio OMS",
+    icon: "clean_hands",
+    momentos: [
+      { num: 1, titulo: "Antes de tocar al paciente", desc: "Al acercarse al paciente para protegerlo de gérmenes patógenos que llevas en tus manos." },
+      { num: 2, titulo: "Antes de realizar una tarea limpia o aséptica", desc: "Inmediatamente antes de manipular vías, sondas, curaciones o medicación." },
+      { num: 3, titulo: "Después del riesgo de exposición a líquidos corporales", desc: "Tras contacto con fluidos, drenajes o al retirar guantes." },
+      { num: 4, titulo: "Después de tocar al paciente", desc: "Al finalizar la atención y antes de tocar objetos fuera de la unidad del paciente." },
+      { num: 5, titulo: "Después del contacto con el entorno del paciente", desc: "Tras tocar barandales, velador, bombas de infusión o monitores." }
+    ]
+  },
+  {
+    id: "ficha-punciones-sitios",
+    categoria: "punciones",
+    categoriaTexto: "Punciones & Sitios IM/SC",
+    titulo: "Sitios Anatómicos para Punción Intramuscular y Subcutánea",
+    resumen: "Topografía segura para administración de inyectables sin lesionar estructuras nerviosas o vasculares.",
+    badge: "Topografía Clínica",
+    icon: "pin_drop",
+    sitios: [
+      { zona: "Cuadrante Superoexterno", tipo: "IM (Glúteo)", angulo: "90° estricto", maxVol: "Hasta 4-5 mL", desc: "Zona dorsoglútea. Trazar cruz imaginaria; previene traumatismo del nervio ciático." },
+      { zona: "Músculo Deltoides", tipo: "IM (Brazo)", angulo: "90° rápido", maxVol: "Máximo 1-2 mL", desc: "2 a 3 traveses de dedo bajo el acromion. Ideal para vacunas y analgésicos." },
+      { zona: "Vasto Lateral del Muslo", tipo: "IM Preferente", angulo: "90° firme", maxVol: "Hasta 3-4 mL", desc: "Tercio medio de la cara anterolateral. De elección en lactantes y pacientes postrados." },
+      { zona: "Tejido Periumbilical", tipo: "Subcutánea (SC)", angulo: "45° a 90°", maxVol: "Máximo 1 mL", desc: "A 3-5 cm del ombligo. Insulinas y heparinas. Rotar cuadrantes para evitar lipodistrofia." }
+    ]
+  },
+  {
+    id: "ficha-bioseguridad-iaas",
+    categoria: "bioseguridad",
+    categoriaTexto: "Bioseguridad & IAAS",
+    titulo: "Tipos de Precauciones y Aislamientos Hospitalarios",
+    resumen: "Barreras de protección según mecanismo de transmisión para evitar brotes intrahospitalarios.",
+    badge: "Prevención IAAS",
+    icon: "masks",
+    sitios: [
+      { zona: "Precauciones Estándar", tipo: "Todo Paciente", angulo: "Siempre", maxVol: "Universal", desc: "Higiene de manos, uso de guantes si hay contacto con fluidos, descarte seguro de cortopunzantes." },
+      { zona: "Aislamiento por Contacto", tipo: "Bacterias Multirresistentes", angulo: "Delantal + Guantes", maxVol: "S. aureus, C. difficile", desc: "Pechera manga larga y guantes antes de entrar. Equipo clínico exclusivo en la habitación." },
+      { zona: "Aislamiento por Gotitas", tipo: "Partículas > 5 micras", angulo: "Mascarilla Quirúrgica", maxVol: "Influenza, Meningococo", desc: "Mascarilla quirúrgica a menos de 1 metro del paciente. Habitación individual o cohorte." },
+      { zona: "Aislamiento Aéreo", tipo: "Núcleos < 5 micras", angulo: "Respirador N95 / FFP2", maxVol: "Tuberculosis, Sarampión", desc: "Presión negativa obligatoria y respirador N95 bien sellado antes de ingresar al box." }
+    ]
+  }
+];

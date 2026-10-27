@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Fichas de Apoyo y Recordatorios de Estudio - Enfermería Paso a Paso</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#00507d",
+            "primary-container": "#0369a1",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#cde5ff",
+            "on-primary-fixed": "#001d32",
+            secondary: "#006a61",
+            "secondary-container": "#86f2e4",
+            "on-secondary-container": "#006f66",
+            "secondary-fixed": "#89f5e7",
+            "on-secondary-fixed": "#00201d",
+            tertiary: "#753d00",
+            "tertiary-container": "#985100",
+            "tertiary-fixed": "#ffdcc3",
+            "on-tertiary-fixed": "#2f1500",
+            background: "#faf8ff",
+            surface: "#faf8ff",
+            "on-surface": "#131b2e",
+            "on-surface-variant": "#40474f",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f2f3ff",
+            "surface-container": "#eaedff",
+            "surface-container-high": "#e2e7ff",
+            "surface-container-highest": "#dae2fd",
+            outline: "#707881",
+            "outline-variant": "#c0c7d1",
+            error: "#ba1a1a"
+          },
+          fontFamily: {
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "label-lg": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "code-technical": ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body { overscroll-behavior: none; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #c0c7d1; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased pb-20 lg:pb-0">
+
+  <!-- Mobile Overlay -->
+  <div id="mobile-overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden transition-opacity"></div>
+
+  <!-- Modal Detalle de 10 Correctos -->
+  <div id="correctosModal" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-surface-container-lowest rounded-2xl max-w-lg w-full p-6 shadow-xl border border-surface-container flex flex-col gap-4">
+      <div class="flex items-center justify-between pb-2 border-b border-surface-container">
+        <div class="flex items-center gap-3">
+          <span id="modalCorrectoNum" class="w-8 h-8 rounded-lg bg-primary-fixed text-primary font-bold text-sm font-mono flex items-center justify-center">
+            01
+          </span>
+          <h3 id="modalCorrectoTitle" class="font-headline-sm text-base font-bold text-on-surface">
+            Paciente Correcto
+          </h3>
+        </div>
+        <button id="closeModalBtn" class="p-1 rounded-lg hover:bg-surface-container text-outline">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+      <p id="modalCorrectoDetail" class="text-sm text-on-surface leading-relaxed">
+        Verificar con 2 identificadores activos...
+      </p>
+      <div class="bg-surface-container-low p-3 rounded-xl border-l-4 border-primary flex items-start gap-2">
+        <span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">verified</span>
+        <span class="text-xs text-on-surface-variant leading-tight">
+          Medida de seguridad innegociable de la OMS para prevenir eventos adversos por medicamentos (EAM).
+        </span>
+      </div>
+      <button onclick="document.getElementById('correctosModal').classList.add('hidden')" class="w-full py-2.5 rounded-xl bg-primary text-on-primary font-bold text-xs hover:bg-primary/90 transition-colors">
+        Entendido
+      </button>
+    </div>
+  </div>
+
+  <!-- Sidebar Lateral -->
+  <aside id="main-sidebar" class="fixed left-0 top-0 h-screen w-72 bg-surface-container-lowest shadow-lg lg:shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between overflow-y-auto transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+    <div class="flex flex-col">
+      <!-- Logo y Título -->
+      <div class="px-6 pt-6 pb-4 flex items-center justify-between border-b border-surface-container">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center font-bold shadow-sm">
+            <span class="material-symbols-outlined text-[24px]">local_hospital</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-headline-sm text-base text-primary tracking-tight font-bold">Enfermería Paso a Paso</span>
+            <span class="font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">Guía & Práctica Clínica</span>
+          </div>
+        </div>
+        <button class="lg:hidden p-1 rounded-lg hover:bg-surface-container text-outline" onclick="document.getElementById('main-sidebar').classList.add('-translate-x-full'); document.getElementById('mobile-overlay').classList.add('hidden');">
+          <span class="material-symbols-outlined text-[22px]">close</span>
+        </button>
+      </div>
+
+      <!-- Menú de Navegación -->
+      <div class="px-4 py-4">
+        <nav class="flex flex-col gap-1.5">
+          <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all">
+            <span class="material-symbols-outlined text-[20px]">grid_view</span>
+            <span class="font-label-lg text-sm font-semibold">Panel Principal</span>
+          </a>
+          <a href="checklists.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all">
+            <span class="material-symbols-outlined text-[20px]">checklist</span>
+            <span class="font-label-lg text-sm font-semibold">Procedimientos & Checklists</span>
+          </a>
+          <a href="materiales.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all">
+            <span class="material-symbols-outlined text-[20px]">medical_services</span>
+            <span class="font-label-lg text-sm font-semibold">Bandeja de Materiales</span>
+          </a>
+          <a href="fichas-recordatorios.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary-container text-on-primary font-bold shadow-sm transition-all">
+            <span class="material-symbols-outlined text-[20px]">assignment</span>
+            <span class="font-label-lg text-sm">Fichas & Recordatorios</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Info del Alumno y Rotación -->
+    <div class="px-4 pb-6 flex flex-col gap-3">
+      <div class="bg-surface-container-low p-3.5 rounded-xl flex flex-col gap-1 border border-surface-container">
+        <span class="font-label-sm text-[11px] text-secondary font-bold uppercase tracking-wider flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">school</span> Práctica Clínica 2026
+        </span>
+        <span class="font-body-sm text-sm text-on-surface font-semibold">Rotación Medicina Interna</span>
+        <span class="font-label-sm text-xs text-on-surface-variant">Servicio Sala 4B</span>
+      </div>
+      <div class="flex items-start gap-1.5 p-2 bg-surface-container-high/60 rounded-lg text-on-surface-variant">
+        <span class="material-symbols-outlined text-[16px] text-tertiary flex-shrink-0 mt-0.5">info</span>
+        <span class="font-label-sm text-[11px] text-on-surface-variant leading-tight">Propósito estrictamente educativo y de apoyo al aprendizaje.</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Contenido Principal -->
+  <div class="lg:pl-72 flex flex-col min-h-screen">
+    
+    <!-- Header Superior -->
+    <header class="sticky top-0 z-30 h-16 bg-surface/90 backdrop-blur-xl border-b border-surface-container px-4 lg:px-8 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-xl bg-surface-container hover:bg-surface-container-highest text-primary transition-colors" aria-label="Abrir menú">
+          <span class="material-symbols-outlined text-[24px]">menu</span>
+        </button>
+        <div class="flex flex-col">
+          <h2 class="font-headline-sm text-sm font-bold text-primary">Material de Apoyo & Recordatorios</h2>
+          <span class="text-[11px] text-on-surface-variant">Fichas breves de bolsillo y planificador de estudio</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <span class="hidden sm:inline-flex items-center gap-1 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-semibold">
+          <span class="material-symbols-outlined text-[14px]">verified</span> Normas OMS 2024
+        </span>
+        <div class="w-9 h-9 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bold text-xs shadow-sm">
+          <span>ES</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenido de Fichas y Recordatorios -->
+    <main class="flex-1 p-4 lg:p-8 max-w-[1520px] mx-auto w-full flex flex-col gap-8">
+
+      <!-- ================= SECCIÓN A: FICHAS TÉCNICAS Y PRECAUCIONES ================= -->
+      <section class="flex flex-col gap-4">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-2 border-b border-surface-container">
+          <div>
+            <span class="text-xs font-mono font-bold text-tertiary uppercase tracking-wider">SECCIÓN 01 // CONSULTA RÁPIDA DE BOLSILLO</span>
+            <h2 class="font-headline-md text-xl sm:text-2xl font-bold text-on-surface">Biblioteca de Fichas Técnicas & Precauciones</h2>
+          </div>
+          <span class="text-xs text-on-surface-variant">Toca cualquier ficha para ver detalles</span>
+        </div>
+
+        <!-- Filtros por Categoría -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <button class="tag-btn px-4 py-2 rounded-full text-xs font-bold bg-primary text-on-primary shadow-sm transition-all whitespace-nowrap" onclick="filterCards('all', this)">
+            Todos
+          </button>
+          <button class="tag-btn px-4 py-2 rounded-full text-xs font-bold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all whitespace-nowrap" onclick="filterCards('farmacologia', this)">
+            10 Correctos (Fármacos)
+          </button>
+          <button class="tag-btn px-4 py-2 rounded-full text-xs font-bold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all whitespace-nowrap" onclick="filterCards('calibres', this)">
+            Calibres y Colores IV
+          </button>
+          <button class="tag-btn px-4 py-2 rounded-full text-xs font-bold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all whitespace-nowrap" onclick="filterCards('higiene', this)">
+            Higiene de Manos
+          </button>
+          <button class="tag-btn px-4 py-2 rounded-full text-xs font-bold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all whitespace-nowrap" onclick="filterCards('punciones', this)">
+            Punciones IM & SC
+          </button>
+          <button class="tag-btn px-4 py-2 rounded-full text-xs font-bold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all whitespace-nowrap" onclick="filterCards('bioseguridad', this)">
+            Bioseguridad & IAAS
+          </button>
+        </div>
+
+        <!-- Grid de Fichas -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- FICHA 1: Los 10 Correctos (7 columnas) -->
+          <article class="flashcard lg:col-span-7 bg-surface-container-lowest rounded-2xl p-5 sm:p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-4 relative overflow-hidden" data-category="farmacologia">
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary to-secondary"></div>
+            <div class="flex items-start justify-between gap-3 pt-1">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-primary-fixed text-primary flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[24px]">vaccines</span>
+                </div>
+                <div>
+                  <span class="text-xs font-bold text-primary uppercase tracking-wider">Mnemotecnia Esencial</span>
+                  <h3 class="font-headline-sm text-base sm:text-lg font-bold text-on-surface">Los 10 Correctos en Fármacos</h3>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold">
+                Seguridad Paciente
+              </span>
+            </div>
+            <p class="text-xs text-on-surface-variant leading-relaxed">
+              Toca cada casilla para ver la justificación técnica y el protocolo de seguridad correspondiente:
+            </p>
+
+            <!-- Grid de 10 Correctos Interactivos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div onclick="showCorrectoDetail(1)" class="p-3 rounded-xl bg-surface-container-low hover:bg-primary-fixed/40 transition-colors flex items-start gap-2.5 cursor-pointer border border-surface-container">
+                <span class="font-mono text-xs font-bold text-primary">01.</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Paciente Correcto</span>
+                  <span class="text-[11px] text-on-surface-variant">2 identificadores activos</span>
+                </div>
+              </div>
+              <div onclick="showCorrectoDetail(2)" class="p-3 rounded-xl bg-surface-container-low hover:bg-primary-fixed/40 transition-colors flex items-start gap-2.5 cursor-pointer border border-surface-container">
+                <span class="font-mono text-xs font-bold text-primary">02.</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Medicamento Correcto</span>
+                  <span class="text-[11px] text-on-surface-variant">Verificación triple etiqueta</span>
+                </div>
+              </div>
+              <div onclick="showCorrectoDetail(3)" class="p-3 rounded-xl bg-surface-container-low hover:bg-primary-fixed/40 transition-colors flex items-start gap-2.5 cursor-pointer border border-surface-container">
+                <span class="font-mono text-xs font-bold text-primary">03.</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Dosis Correcta</span>
+                  <span class="text-[11px] text-on-surface-variant">Doble chequeo alto riesgo</span>
+                </div>
+              </div>
+              <div onclick="showCorrectoDetail(4)" class="p-3 rounded-xl bg-surface-container-low hover:bg-primary-fixed/40 transition-colors flex items-start gap-2.5 cursor-pointer border border-surface-container">
+                <span class="font-mono text-xs font-bold text-primary">04.</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Vía Correcta</span>
+                  <span class="text-[11px] text-on-surface-variant">IV, IM, SC, VO, SL</span>
+                </div>
+              </div>
+              <div onclick="showCorrectoDetail(5)" class="p-3 rounded-xl bg-surface-container-low hover:bg-primary-fixed/40 transition-colors flex items-start gap-2.5 cursor-pointer border border-surface-container">
+                <span class="font-mono text-xs font-bold text-primary">05.</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Hora Correcta</span>
+                  <span class="text-[11px] text-on-surface-variant">Intervalo terapéutico</span>
+                </div>
+              </div>
+              <div onclick="showCorrectoDetail(6)" class="p-3 rounded-xl bg-surface-container-low hover:bg-primary-fixed/40 transition-colors flex items-start gap-2.5 cursor-pointer border border-surface-container">
+                <span class="font-mono text-xs font-bold text-primary">06.</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Velocidad Correcta</span>
+                  <span class="text-[11px] text-on-surface-variant">Programación mL/h o goteo</span>
+                </div>
+              </div>
+              <div onclick="showCorrectoDetail(7)" class="p-3 rounded-xl bg-surface-container-low hover:bg-primary-fixed/40 transition-colors flex items-start gap-2.5 cursor-pointer border border-surface-container">
+                <span class="font-mono text-xs font-bold text-primary">07.</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Verificar Alergias</span>
+                  <span class="text-[11px] text-on-surface-variant">Interacciones previas</span>
+                </div>
+              </div>
+              <div onclick="showCorrectoDetail(8)" class="p-3 rounded-xl bg-surface-container-low hover:bg-primary-fixed/40 transition-colors flex items-start gap-2.5 cursor-pointer border border-surface-container">
+                <span class="font-mono text-xs font-bold text-primary">08.</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Educación al Paciente</span>
+                  <span class="text-[11px] text-on-surface-variant">Informar efecto esperado</span>
+                </div>
+              </div>
+              <div onclick="showCorrectoDetail(9)" class="p-3 rounded-xl bg-surface-container-low hover:bg-primary-fixed/40 transition-colors flex items-start gap-2.5 cursor-pointer border border-surface-container">
+                <span class="font-mono text-xs font-bold text-primary">09.</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Registro Inmediato</span>
+                  <span class="text-[11px] text-on-surface-variant">Registrar tras administrar</span>
+                </div>
+              </div>
+              <div onclick="showCorrectoDetail(10)" class="p-3 rounded-xl bg-surface-container-low hover:bg-primary-fixed/40 transition-colors flex items-start gap-2.5 cursor-pointer border border-surface-container">
+                <span class="font-mono text-xs font-bold text-primary">10.</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Monitoreo / Respuesta</span>
+                  <span class="text-[11px] text-on-surface-variant">Vigilar efectos colaterales</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- FICHA 2: Calibres y Colores IV (5 columnas) -->
+          <article class="flashcard lg:col-span-5 bg-surface-container-lowest rounded-2xl p-5 sm:p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-4" data-category="calibres">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[24px]">colorize</span>
+                </div>
+                <div>
+                  <span class="text-xs font-bold text-secondary uppercase tracking-wider">Norma ISO 10555</span>
+                  <h3 class="font-headline-sm text-base sm:text-lg font-bold text-on-surface">Calibres y Colores IV</h3>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-surface-container text-xs font-mono font-bold text-outline">
+                Flujos mL/min
+              </span>
+            </div>
+            <p class="text-xs text-on-surface-variant">
+              A menor calibre numérico (G), mayor diámetro interno del catéter:
+            </p>
+
+            <div class="flex flex-col gap-2">
+              <div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low">
+                <div class="flex items-center gap-2">
+                  <span class="w-7 h-7 rounded-lg bg-orange-500 text-white flex items-center justify-center font-mono font-bold text-xs">14G</span>
+                  <span class="text-xs font-bold text-on-surface">Naranja (270 mL/min)</span>
+                </div>
+                <span class="text-[11px] text-on-surface-variant">Politrauma / Shock</span>
+              </div>
+              <div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low">
+                <div class="flex items-center gap-2">
+                  <span class="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-mono font-bold text-xs">18G</span>
+                  <span class="text-xs font-bold text-on-surface">Verde (90 mL/min)</span>
+                </div>
+                <span class="text-[11px] text-on-surface-variant">Cirugía / Hemoderivados</span>
+              </div>
+              <div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low ring-2 ring-primary/20">
+                <div class="flex items-center gap-2">
+                  <span class="w-7 h-7 rounded-lg bg-pink-600 text-white flex items-center justify-center font-mono font-bold text-xs">20G</span>
+                  <span class="text-xs font-bold text-on-surface">Rosa (60 mL/min)</span>
+                </div>
+                <span class="text-[11px] text-primary font-bold">Estándar Hospital</span>
+              </div>
+              <div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low">
+                <div class="flex items-center gap-2">
+                  <span class="w-7 h-7 rounded-lg bg-blue-500 text-white flex items-center justify-center font-mono font-bold text-xs">22G</span>
+                  <span class="text-xs font-bold text-on-surface">Azul (36 mL/min)</span>
+                </div>
+                <span class="text-[11px] text-on-surface-variant">Adulto Mayor / Niños</span>
+              </div>
+              <div class="flex items-center justify-between p-2.5 rounded-xl bg-surface-container-low">
+                <div class="flex items-center gap-2">
+                  <span class="w-7 h-7 rounded-lg bg-amber-300 text-amber-900 flex items-center justify-center font-mono font-bold text-xs">24G</span>
+                  <span class="text-xs font-bold text-on-surface">Amarillo (20 mL/min)</span>
+                </div>
+                <span class="text-[11px] text-on-surface-variant">Pediatría / Neo</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- FICHA 3: Sitios Anatómicos Punción IM y SC (6 columnas) -->
+          <article class="flashcard lg:col-span-6 bg-surface-container-lowest rounded-2xl p-5 sm:p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-4" data-category="punciones">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-tertiary-fixed text-tertiary flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[24px]">pin_drop</span>
+                </div>
+                <div>
+                  <span class="text-xs font-bold text-tertiary uppercase tracking-wider">Topografía Clínica</span>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Sitios para Punción IM & SC</h3>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-surface-container text-xs font-semibold text-on-surface-variant">Inyectables</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-3 rounded-xl bg-surface-container-low flex flex-col gap-1 border border-surface-container">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-on-surface">Cuadrante Superoexterno</span>
+                  <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary-fixed text-primary">IM Glúteo</span>
+                </div>
+                <p class="text-[11px] text-on-surface-variant leading-tight mt-0.5">Zona dorsoglútea. Evita el nervio ciático. Vol. máx: hasta 4-5 mL en adultos.</p>
+                <span class="text-[11px] font-mono text-secondary font-bold mt-1">Ángulo: 90° estricto</span>
+              </div>
+              <div class="p-3 rounded-xl bg-surface-container-low flex flex-col gap-1 border border-surface-container">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-on-surface">Músculo Deltoides</span>
+                  <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary-fixed text-primary">IM Brazo</span>
+                </div>
+                <p class="text-[11px] text-on-surface-variant leading-tight mt-0.5">2 a 3 traveses de dedo bajo el acromion. Vol. máx: 1 a 2 mL. Vacunas biológicas.</p>
+                <span class="text-[11px] font-mono text-secondary font-bold mt-1">Ángulo: 90° rápido</span>
+              </div>
+              <div class="p-3 rounded-xl bg-surface-container-low flex flex-col gap-1 border border-surface-container">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-on-surface">Vasto Lateral Muslo</span>
+                  <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container">IM Preferente</span>
+                </div>
+                <p class="text-[11px] text-on-surface-variant leading-tight mt-0.5">Tercio medio de la cara anterolateral. De elección en lactantes y postrados.</p>
+                <span class="text-[11px] font-mono text-secondary font-bold mt-1">Ángulo: 90° firme</span>
+              </div>
+              <div class="p-3 rounded-xl bg-surface-container-low flex flex-col gap-1 border border-surface-container">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-on-surface">Tejido Periumbilical</span>
+                  <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-tertiary-fixed text-tertiary">Subcutánea</span>
+                </div>
+                <p class="text-[11px] text-on-surface-variant leading-tight mt-0.5">A 3-5 cm lejos del ombligo. Insulinas y heparinas. Rotar cuadrantes.</p>
+                <span class="text-[11px] font-mono text-secondary font-bold mt-1">Ángulo: 45° a 90°</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- FICHA 4: Aislamientos y Bioseguridad IAAS (6 columnas) -->
+          <article class="flashcard lg:col-span-6 bg-surface-container-lowest rounded-2xl p-5 sm:p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-4" data-category="bioseguridad">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center">
+                  <span class="material-symbols-outlined text-[24px]">masks</span>
+                </div>
+                <div>
+                  <span class="text-xs font-bold text-secondary uppercase tracking-wider">Prevención IAAS</span>
+                  <h3 class="font-headline-sm text-base font-bold text-on-surface">Aislamientos Hospitalarios</h3>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold">Barreras</span>
+            </div>
+            <div class="flex flex-col gap-2.5">
+              <div class="p-3 rounded-xl bg-surface-container-low flex items-start gap-3 border-l-4 border-primary">
+                <span class="material-symbols-outlined text-primary text-[20px] mt-0.5">pan_tool</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Contacto (Pechera + Guantes)</span>
+                  <span class="text-[11px] text-on-surface-variant">Bacterias multirresistentes (SAMR, BLEE), diarrea infecciosa por C. difficile.</span>
+                </div>
+              </div>
+              <div class="p-3 rounded-xl bg-surface-container-low flex items-start gap-3 border-l-4 border-secondary">
+                <span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">air</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Gotitas (Mascarilla Quirúrgica a &lt; 1 m)</span>
+                  <span class="text-[11px] text-on-surface-variant">Virus respiratorio sincicial (VRS), Influenza, Meningococo, Tos ferina.</span>
+                </div>
+              </div>
+              <div class="p-3 rounded-xl bg-surface-container-low flex items-start gap-3 border-l-4 border-error">
+                <span class="material-symbols-outlined text-error text-[20px] mt-0.5">masks</span>
+                <div class="flex flex-col">
+                  <span class="text-xs font-bold text-on-surface">Aéreo (Respirador N95 + Presión Negativa)</span>
+                  <span class="text-[11px] text-on-surface-variant">Tuberculosis pulmonar activa, Sarampión, Varicela. Puerta siempre cerrada.</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ================= SECCIÓN B: RECORDATORIOS DE ESTUDIO ================= -->
+      <section class="flex flex-col gap-4 pt-4 border-t border-surface-container">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-2">
+          <div>
+            <span class="text-xs font-mono font-bold text-primary uppercase tracking-wider">SECCIÓN 02 // REPASO ESPACIADO PRE-TURNO</span>
+            <h2 class="font-headline-md text-xl sm:text-2xl font-bold text-on-surface">Planificador de Recordatorios de Estudio</h2>
+          </div>
+          <span id="reminderCountBadge" class="px-3 py-1 rounded-full bg-primary-fixed text-primary text-xs font-bold font-mono">
+            0 Activos
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- Formulario para Programar Nuevo Aviso (5 columnas) -->
+          <div class="lg:col-span-5 bg-surface-container-lowest rounded-2xl p-5 sm:p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-4">
+            <div class="flex items-center gap-2 text-primary font-bold">
+              <span class="material-symbols-outlined text-[22px]">notification_add</span>
+              <h3 class="font-headline-sm text-base text-on-surface">Programar Nuevo Aviso</h3>
+            </div>
+            
+            <form id="reminderForm" class="flex flex-col gap-3.5">
+              <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold text-on-surface" for="procedureInput">Procedimiento a repasar</label>
+                <div class="relative flex items-center">
+                  <span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">medical_services</span>
+                  <select id="procedureInput" required class="w-full h-10 pl-10 pr-4 bg-surface-container-low rounded-xl text-xs text-on-surface outline-none focus:ring-2 focus:ring-primary font-medium cursor-pointer">
+                    <option value="" disabled selected>Selecciona un procedimiento...</option>
+                    <option value="Canalización de Vía Venosa Periférica (VVP)">Canalización de Vía Venosa Periférica (VVP)</option>
+                    <option value="Toma de Muestras Sanguíneas (Venopunción)">Toma de Muestras Sanguíneas (Venopunción)</option>
+                    <option value="Instalación de Sonda Foley (Técnica Estéril)">Instalación de Sonda Foley (Técnica Estéril)</option>
+                    <option value="Administración de Fármacos (10 Correctos)">Administración de Fármacos (10 Correctos)</option>
+                    <option value="Curación Plana y Manejo de Heridas">Curación Plana y Manejo de Heridas</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold text-on-surface" for="timingSelect">Anticipación del aviso</label>
+                <div class="relative flex items-center">
+                  <span class="material-symbols-outlined absolute left-3 text-outline text-[18px]">alarm</span>
+                  <select id="timingSelect" required class="w-full h-10 pl-10 pr-4 bg-surface-container-low rounded-xl text-xs text-on-surface outline-none focus:ring-2 focus:ring-primary font-medium cursor-pointer">
+                    <option value="2 horas antes del turno de mañana (05:00 AM)">2 horas antes del turno de mañana (05:00 AM)</option>
+                    <option value="1 hora antes del turno de tarde (13:00 PM)">1 hora antes del turno de tarde (13:00 PM)</option>
+                    <option value="La noche anterior al turno (21:30 PM)">La noche anterior al turno (21:30 PM)</option>
+                    <option value="Durante el trayecto a la clínica (06:15 AM)">Durante el trayecto a la clínica (06:15 AM)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label class="text-xs font-bold text-on-surface">Nivel de profundidad</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="flex items-center gap-2 p-2.5 rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container text-xs">
+                    <input type="radio" name="reviewLevel" value="Checklist Completo" checked class="text-primary accent-[#00507d]">
+                    <span class="font-medium text-on-surface">Checklist</span>
+                  </label>
+                  <label class="flex items-center gap-2 p-2.5 rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container text-xs">
+                    <input type="radio" name="reviewLevel" value="Materiales Clave" class="text-primary accent-[#00507d]">
+                    <span class="font-medium text-on-surface">Materiales</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1">
+                <label class="text-xs font-bold text-on-surface" for="reminderNotes">Nota o foco personal (opcional)</label>
+                <input id="reminderNotes" type="text" placeholder="Ej: Poner atención en calibres 20G y retorno venoso" class="w-full h-10 px-3 bg-surface-container-low rounded-xl text-xs text-on-surface outline-none focus:ring-2 focus:ring-primary">
+              </div>
+
+              <button type="submit" class="mt-2 w-full py-2.5 rounded-xl bg-primary text-on-primary font-bold text-xs flex items-center justify-center gap-2 shadow-sm hover:bg-primary/90 transition-all cursor-pointer">
+                <span class="material-symbols-outlined text-[18px]">add_alarm</span>
+                <span>Guardar Recordatorio</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Lista de Recordatorios Activos (7 columnas) -->
+          <div class="lg:col-span-7 bg-surface-container-lowest rounded-2xl p-5 sm:p-6 shadow-sm border border-outline-variant/30 flex flex-col gap-4">
+            <div class="flex items-center justify-between pb-2 border-b border-surface-container">
+              <h3 class="font-headline-sm text-base font-bold text-on-surface">Mis Avisos Programados</h3>
+              <span class="text-xs text-on-surface-variant">Guardados en tu navegador</span>
+            </div>
+
+            <!-- Contenedor de la Lista -->
+            <div id="remindersList" class="flex flex-col gap-2.5 max-h-[460px] overflow-y-auto pr-1">
+              <!-- Renderizado dinámicamente desde js/fichas.js -->
+            </div>
+
+            <!-- Estado Vacío -->
+            <div id="emptyRemindersState" class="hidden flex-col items-center justify-center py-8 text-center gap-2 text-outline">
+              <span class="material-symbols-outlined text-[36px]">event_available</span>
+              <p class="text-xs">No tienes recordatorios activos. Programa uno con el formulario.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Barra de Navegación Móvil Inferior (Celular) -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface-container-lowest/95 backdrop-blur-md border-t border-surface-container flex items-center justify-around z-40 px-2 shadow-lg">
+    <a href="index.html" class="flex flex-col items-center gap-1 py-1 px-3 text-on-surface-variant hover:text-primary">
+      <span class="material-symbols-outlined text-[20px]">grid_view</span>
+      <span class="text-[10px] font-medium">Inicio</span>
+    </a>
+    <a href="checklists.html" class="flex flex-col items-center gap-1 py-1 px-3 text-on-surface-variant hover:text-primary">
+      <span class="material-symbols-outlined text-[20px]">checklist</span>
+      <span class="text-[10px] font-medium">Checklists</span>
+    </a>
+    <a href="materiales.html" class="flex flex-col items-center gap-1 py-1 px-3 text-on-surface-variant hover:text-primary">
+      <span class="material-symbols-outlined text-[20px]">medical_services</span>
+      <span class="text-[10px] font-medium">Materiales</span>
+    </a>
+    <a href="fichas-recordatorios.html" class="flex flex-col items-center gap-1 py-1 px-3 text-primary font-bold">
+      <span class="material-symbols-outlined text-[20px]">assignment</span>
+      <span class="text-[10px]">Fichas</span>
+    </a>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/fichas.js"></script>
+</body>
+</html>
