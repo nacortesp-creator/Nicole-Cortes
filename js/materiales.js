@@ -38,6 +38,9 @@ document.addEventListener('DOMContentLoaded', function () {
   function saveMaterialsState(procId, state) {
     try {
       localStorage.setItem('enfermeria_materiales_' + procId, JSON.stringify(state));
+      if (typeof dbSync !== 'undefined') {
+        dbSync.saveMaterialsProgress(procId, state);
+      }
     } catch (e) {
       console.warn('No se pudo guardar materiales en localStorage', e);
     }

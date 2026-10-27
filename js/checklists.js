@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', function () {
   function saveState(procId, state) {
     try {
       localStorage.setItem('enfermeria_checklist_' + procId, JSON.stringify(state));
+      if (typeof dbSync !== 'undefined') {
+        dbSync.saveChecklistProgress(procId, state);
+      }
     } catch (e) {
       console.warn('No se pudo guardar en localStorage', e);
     }

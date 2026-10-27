@@ -89,14 +89,21 @@ document.addEventListener('DOMContentLoaded', function () {
       toggleBtn.addEventListener('click', function () {
         item.completed = !item.completed;
         saveStoredReminders(reminders);
+        if (typeof dbSync !== 'undefined') {
+          dbSync.updateReminderStatus(item.id, item.completed);
+        }
         renderReminders();
       });
 
       const deleteBtn = card.querySelector('.delete-reminder-btn');
       deleteBtn.addEventListener('click', function () {
         if (confirm('¿Eliminar este recordatorio de repaso?')) {
+          const removedId = reminders[index].id;
           reminders.splice(index, 1);
           saveStoredReminders(reminders);
+          if (typeof dbSync !== 'undefined') {
+            dbSync.deleteReminder(removedId);
+          }
           renderReminders();
         }
       });
@@ -129,10 +136,14 @@ document.addEventListener('DOMContentLoaded', function () {
       reminders.unshift(newReminder);
       saveStoredReminders(reminders);
 
+      if (typeof dbSync !== 'undefined') {
+        dbSync.saveReminder(newReminder);
+      }
+
       reminderForm.reset();
       renderReminders();
 
-      alert('¡Recordatorio programado con éxito! Lo verás en tu lista de repaso pre-práctica.');
+      alert('¡Recordatorio programado con éxito y sincronizado con Firebase!');
     });
   }
 
