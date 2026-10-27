@@ -25,5 +25,6 @@ out/
 # IDE and OS
 .DS_Store
 Thumbs.db
-.vscode/
-.idea/
+# Temporary source files
+stitch_src/
+
